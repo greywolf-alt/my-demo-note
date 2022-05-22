@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <div onclick="printScreen()">截屏</div>
+  <video src="" id="video"></video>
+  <script>
+    const video = document.getElementById('video')
+    video.src = './love5.mp4'
+    video.style.width = '300px'
+    video.controls = 'controls'
+    video.crossorigin = 'anonymous'
+    video.useCORS = 'true'
+    video.id = 'video'
+    video.muted = 'muted'
+    document.body.appendChild(video)
+    video.onloadeddata = function () {
+      this.play()
+      setTimeout(() => {
+        const { width, height } = getComputedStyle(video)
+        const [_w, _h] = [Number.parseInt(width), Number.parseInt(height)]
+        const canvas = document.createElement('canvas')
+        canvas.width = _w
+        canvas.height = _h
+        canvas.getContext("2d").drawImage(video, 0, 0, _w, _h)
+        let img = canvas.toDataURL("image/png")
+        document.body.appendChild(canvas)
+        video.poster = img
+      }, 40)
+    }
+    function printScreen() {
+      const video = document.getElementById('video')
+      console.log(video)
+      const canvas = document.createElement('canvas')
+      const { width, height } = getComputedStyle(video)
+      const [_w, _h] = [Number.parseInt(width), Number.parseInt(height)]
+      canvas.width = _w
+      canvas.height = _h
+      canvas.getContext("2d").drawImage(video, 0, 0, _w, _h)
+      let img = canvas.toDataURL("image/png")
+      document.body.appendChild(canvas)
+
+    }
+  </script>
+</body>
+
+</html>
